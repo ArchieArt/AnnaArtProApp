@@ -1,2 +1,11 @@
-api/artists/route.ts
+artists/
+  route.ts
 
+courses/
+  route.ts
+
+events/
+  route.ts
+
+portfolio/
+  route.ts

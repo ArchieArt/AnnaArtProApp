@@ -1,9 +1,8 @@
-export default function ArtistsDirectory() {
-  const artists = [
-    { name: "Sarah Thompson", specialty: "Watercolor" },
-    { name: "Miguel Rivera", specialty: "Digital Art" },
-    { name: "Emily Carter", specialty: "Acrylic Painting" }
-  ];
+export default async function ArtistsDirectory() {
+  const res = await fetch("http://localhost:3000/api/artists", {
+    cache: "no-store"
+  });
+  const artists = await res.json();
 
   return (
     <main className="px-6 py-10">
@@ -13,11 +12,17 @@ export default function ArtistsDirectory() {
       </p>
 
       <div className="grid md:grid-cols-3 gap-6">
-        {artists.map((artist, i) => (
-          <div key={i} className="bg-white shadow p-6 rounded-lg border">
-            <div className="w-full h-40 bg-gray-200 rounded mb-4" />
+        {artists.map((artist: any) => (
+          <div key={artist.id} className="bg-white shadow p-6 rounded-lg border">
+            <img
+              src={artist.image}
+              alt={artist.name}
+              className="w-full h-40 object-cover rounded mb-4"
+            />
+
             <h2 className="text-xl font-semibold">{artist.name}</h2>
-            <p className="text-gray-600 mt-1">{artist.specialty}</p>
+            <p className="text-gray-600 mt-1">{artist.category}</p>
+
             <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
               View Profile
             </button>

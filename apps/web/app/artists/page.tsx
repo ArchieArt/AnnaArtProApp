@@ -23,12 +23,9 @@ export default async function ArtistsDirectory() {
             <h2 className="text-xl font-semibold">{artist.name}</h2>
             <p className="text-gray-600 mt-1">{artist.category}</p>
 
-            <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-              View Profile
-            </button>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+            <a href={`/artists/${i + 1}`}>
+  <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+    View Profile
+  </button>
+</a>
 }

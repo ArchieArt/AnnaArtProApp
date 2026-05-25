@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 
-export default function NewPortfolioPage() {
+export default function NewPortfolioProjectPage() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
 
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -17,17 +17,33 @@ export default function NewPortfolioPage() {
       body: JSON.stringify({
         title,
         category,
-        image,
-        description
+        description,
+        image
       })
     });
 
     window.location.href = "/admin/portfolio";
   }
 
+  async function handleImageUpload(e: any) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+    setImage(data.url);
+  }
+
   return (
     <main className="px-6 py-10 max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Add New Project</h1>
+      <h1 className="text-3xl font-bold mb-6">Add New Portfolio Project</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -52,24 +68,33 @@ export default function NewPortfolioPage() {
         </div>
 
         <div>
-          <label className="block font-semibold mb-1">Image URL</label>
-          <input
+          <label className="block font-semibold mb-1">Description</label>
+          <textarea
             className="w-full border px-3 py-2 rounded"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
             required
           />
         </div>
 
         <div>
-          <label className="block font-semibold mb-1">Description</label>
-          <textarea
+          <label className="block font-semibold mb-1">Project Image</label>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
             className="w-full border px-3 py-2 rounded"
-            rows={4}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
+          />
+
+          {image && (
+            <img
+              src={image}
+              alt="Preview"
+              className="w-40 h-40 object-cover rounded mt-3 border"
+            />
+          )}
         </div>
 
         <button

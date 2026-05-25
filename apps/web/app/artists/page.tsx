@@ -13,7 +13,10 @@ export default async function ArtistsDirectory() {
 
       <div className="grid md:grid-cols-3 gap-6">
         {artists.map((artist: any) => (
-          <div key={artist.id} className="bg-white shadow p-6 rounded-lg border">
+          <div
+            key={artist.id}
+            className="bg-white shadow p-6 rounded-lg border"
+          >
             <img
               src={artist.image}
               alt={artist.name}
@@ -23,9 +26,14 @@ export default async function ArtistsDirectory() {
             <h2 className="text-xl font-semibold">{artist.name}</h2>
             <p className="text-gray-600 mt-1">{artist.category}</p>
 
-            <a href={`/artists/${i + 1}`}>
-  <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-    View Profile
-  </button>
-</a>
+            <a href={`/artists/${artist.id}`}>
+              <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                View Profile
+              </button>
+            </a>
+          </div>
+        ))}
+      </div>
+    </main>
+  );
 }

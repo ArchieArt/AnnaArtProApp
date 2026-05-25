@@ -1,3 +1,6 @@
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
 export const metadata = {
   title: "Anna Art Pro",
   description: "Artist Career Engine for the Anna Arts Council"
@@ -6,7 +9,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-gray-50">
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
+

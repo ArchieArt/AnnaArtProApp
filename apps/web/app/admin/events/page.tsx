@@ -1,51 +1,122 @@
-export default async function AdminEventsPage() {
-  const res = await fetch("http://localhost:3000/api/events", {
-    cache: "no-store"
-  });
-  const events = await res.json();
+"use client";
+
+import { useState } from "react";
+
+export default function NewEventPage() {
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [location, setLocation] = useState("");
+  const [image, setImage] = useState("");
+
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+
+    await fetch("http://localhost:3000/api/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        date,
+        time,
+        location,
+        image
+      })
+    });
+
+    window.location.href = "/admin/events";
+  }
+
+  async function handleImageUpload(e: any) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await res.json();
+    setImage(data.url);
+  }
 
   return (
-    <main className="px-6 py-10">
-      <h1 className="text-3xl font-bold mb-6">Manage Events</h1>
+    <main className="px-6 py-10 max-w-xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">Add New Event</h1>
 
-      <a href="/admin/events/new">
-        <button className="mb-6 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-          + Add New Event
-        </button>
-      </a>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        
+        <div>
+          <label className="block font-semibold mb-1">Event Title</label>
+          <input
+            className="w-full border px-3 py-2 rounded"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {events.map((event: any) => (
-          <div
-            key={event.id}
-            className="bg-white shadow p-6 rounded-lg border"
-          >
+        <div>
+          <label className="block font-semibold mb-1">Date</label>
+          <input
+            type="date"
+            className="w-full border px-3 py-2 rounded"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Time</label>
+          <input
+            type="time"
+            className="w-full border px-3 py-2 rounded"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Location</label>
+          <input
+            className="w-full border px-3 py-2 rounded"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Event Image</label>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="w-full border px-3 py-2 rounded"
+          />
+
+          {image && (
             <img
-              src={event.image}
-              alt={event.title}
-              className="w-full h-40 object-cover rounded mb-4"
+              src={image}
+              alt="Preview"
+              className="w-40 h-40 object-cover rounded mt-3 border"
             />
+          )}
+        </div>
 
-            <h2 className="text-xl font-semibold">{event.title}</h2>
-            <p className="text-gray-600">{event.date} • {event.time}</p>
-            <p className="text-gray-600">{event.location}</p>
-
-            <div className="flex gap-3 mt-4">
-              <a href={`/admin/events/edit/${event.id}`}>
-                <button className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                  Edit
-                </button>
-              </a>
-
-              <a href={`/admin/events/delete/${event.id}`}>
-                <button className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
-                  Delete
-                </button>
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
+        <button
+          type="submit"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          Save Event
+        </button>
+      </form>
     </main>
   );
 }

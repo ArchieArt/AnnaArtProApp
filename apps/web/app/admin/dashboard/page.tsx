@@ -11,10 +11,10 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function loadStats() {
       const [a, c, e, p] = await Promise.all([
-        fetch("http://localhost:3000/api/artists").then((r) => r.json()),
-        fetch("http://localhost:3000/api/courses").then((r) => r.json()),
-        fetch("http://localhost:3000/api/events").then((r) => r.json()),
-        fetch("http://localhost:3000/api/portfolio").then((r) => r.json())
+        fetch("/api/artists").then((r) => r.json()),
+        fetch("/api/courses").then((r) => r.json()),
+        fetch("/api/events").then((r) => r.json()),
+        fetch("/api/portfolio").then((r) => r.json())
       ]);
 
       setArtists(a.length);
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <main className="px-6 py-10">
+    <div>
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -48,11 +48,11 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white shadow p-6 rounded-lg border">
-          <h2 className="text-xl font-semibold">Portfolio Projects</h2>
+          <h2 className="text-xl font-semibold">Portfolio</h2>
           <p className="text-4xl font-bold mt-2">{portfolio}</p>
         </div>
 
       </div>
-    </main>
+    </div>
   );
 }

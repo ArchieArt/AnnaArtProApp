@@ -1,4 +1,2 @@
-artists/
-courses/
-events/
-portfolio/
+api/artists/route.ts
+

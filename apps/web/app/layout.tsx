@@ -1,20 +1,9 @@
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-
-export const metadata = {
-  title: "Anna Art Pro",
-  description: "Artist Career Engine for the Anna Arts Council"
-};
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body className="bg-gray-50">
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
-    </html>
-  );
-}
+<nav className="p-4 bg-gray-100 border-b">
+  <ul className="flex gap-6">
+    <li><a href="/artists" className="hover:underline">Artists</a></li>
+    <li><a href="/courses" className="hover:underline">Courses</a></li>
+    <li><a href="/events" className="hover:underline">Events</a></li>
+    <li><a href="/portfolio" className="hover:underline">Portfolio</a></li>
+  </ul>
+</nav>
 
